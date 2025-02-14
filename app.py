@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # 定義公版選項與對應欄位
 templates = {
@@ -58,15 +58,22 @@ else:
     formatted_text = "\n".join([f"{key}: {value}" for key, value in st.session_state.data.items() if value])
 
 # 顯示輸出內容
-st.text_area("整理好的文字:", formatted_text, height=150)
+text_area = st.text_area("整理好的文字:", formatted_text, height=150)
 
-# 一鍵複製 (JavaScript 方法)
-copy_button = f"""
-<button onclick="navigator.clipboard.writeText(`{formatted_text}`)">
-    複製
-</button>
-"""
-st.markdown(copy_button, unsafe_allow_html=True)
+# 一鍵複製 (使用 JavaScript)
+st.markdown(
+    f"""
+    <script>
+    function copyToClipboard() {{
+        navigator.clipboard.writeText(`{text_area}`).then(() => {{
+            alert('已複製到剪貼簿！');
+        }});
+    }}
+    </script>
+    <button onclick="copyToClipboard()">複製</button>
+    """,
+    unsafe_allow_html=True
+)
 
 # 清除所有輸入內容並重新渲染
 if st.button("清除重填"):
