@@ -58,22 +58,25 @@ else:
     formatted_text = "\n".join([f"{key}: {value}" for key, value in st.session_state.data.items() if value])
 
 # 顯示輸出內容
-text_area = st.text_area("整理好的文字:", formatted_text, height=150)
+st.text_area("整理好的文字:", formatted_text, height=150, key="output_text")
 
-# 一鍵複製 (使用 JavaScript)
-st.markdown(
-    f"""
+
+# JavaScript 來實現一鍵複製
+def copy_script():
+    return """
     <script>
-    function copyToClipboard() {{
-        navigator.clipboard.writeText(`{text_area}`).then(() => {{
-            alert('已複製到剪貼簿！');
-        }});
-    }}
+    function copyText() {
+        var text = document.getElementById("output_text").value;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("已複製到剪貼簿！");
+        });
+    }
     </script>
-    <button onclick="copyToClipboard()">複製</button>
-    """,
-    unsafe_allow_html=True
-)
+    <button onclick="copyText()">複製</button>
+    """
+
+
+st.markdown(copy_script(), unsafe_allow_html=True)
 
 # 清除所有輸入內容並重新渲染
 if st.button("清除重填"):
