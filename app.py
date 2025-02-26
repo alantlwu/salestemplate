@@ -79,12 +79,21 @@ if selected_template in ["PDC SMS", "PDC 威脅 SMS"]:
 """
 
 else:
+    # 若選擇的是 Lead/PDC，則在第一欄加入 # 下拉選單
+    if selected_template == "Lead/PDC":
+        selected_person = st.selectbox("#", ["Allen", "Mandy", "Nikki"], index=None, placeholder="選擇人名")
+        if selected_person:
+            st.session_state.data["#"] = selected_person
+
     # 建立輸入欄位
     for field in templates[selected_template]:
         st.session_state.data[field] = st.text_input(field, st.session_state.data.get(field, ""))
 
     # 整理輸出內容
-    formatted_text = "\n".join([f"{key}: {value}" for key, value in st.session_state.data.items() if value])
+    formatted_text = "\n".join(
+        [f"# {st.session_state.data['#']}"] +  # 先加 # 的內容
+        [f"{key}: {value}" for key, value in st.session_state.data.items() if key != "#" and value]  # 其他欄位
+    )
 
 # 顯示 NA*3 提醒，但不包含在複製內容
 if selected_template == "PDC 威脅 SMS":
