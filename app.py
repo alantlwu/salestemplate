@@ -91,8 +91,8 @@ else:
 
     # 整理輸出內容
     formatted_text = "\n".join(
-        [f"# {st.session_state.data['#']}"] +  # 先加 # 的內容
-        [f"{key}: {value}" for key, value in st.session_state.data.items() if key != "#" and value]  # 其他欄位
+        ([f"# {st.session_state.data['#']}"] if "#" in st.session_state.data and st.session_state.data["#"] else []) +
+        [f"{key}: {value}" for key, value in st.session_state.data.items() if key != "#" and value]
     )
 
 # 顯示 NA*3 提醒，但不包含在複製內容
