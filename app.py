@@ -81,7 +81,7 @@ if selected_template in ["PDC SMS", "PDC 威脅 SMS"]:
 else:
     # 若選擇的是 Lead/PDC，則在第一欄加入 # 下拉選單
     if selected_template == "Lead/PDC":
-        selected_person = st.selectbox("#", ["Allen*", "Mandy*", "Nikki*", "Jerry*", "Sean*"], index=None, placeholder="選擇人名")
+        selected_person = st.selectbox("#", ["Allen*", "Mandy*", "Nikki*", "Jerry*", "Sean*", "Ace*"], index=None, placeholder="選擇人名")
         if selected_person:
             st.session_state.data["#"] = selected_person
 
